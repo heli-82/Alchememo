@@ -1,9 +1,56 @@
-[gd_scene load_steps=2 format=3 uid="uid://cg32pofjwe6q8"]
+[gd_scene load_steps=7 format=3 uid="uid://cg32pofjwe6q8"]
 
 [ext_resource type="Script" path="res://scenes/main.gd" id="1_dqqm1"]
+[ext_resource type="Shader" path="res://scenes/main.gdshader" id="2_b3v8j"]
+[ext_resource type="AudioStream" uid="uid://80iq886javb0" path="res://assets/audio/balatro.mp3" id="2_ufexp"]
+[ext_resource type="Shader" path="res://scenes/lines.gdshader" id="3_7ukp5"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_uhk7k"]
+shader = ExtResource("2_b3v8j")
+shader_parameter/polar_coordinates = false
+shader_parameter/polar_center = Vector2(0.5, 0.5)
+shader_parameter/polar_zoom = 1.0
+shader_parameter/polar_repeat = 1.0
+shader_parameter/spin_rotation = null
+shader_parameter/spin_speed = 1.0
+shader_parameter/offset = Vector2(0, 0)
+shader_parameter/colour_1 = Color(0.129412, 0.14902, 0.180392, 1)
+shader_parameter/colour_2 = Color(0.211765, 0.239216, 0.290196, 1)
+shader_parameter/colour_3 = Color(0.439216, 0.729412, 0.980392, 1)
+shader_parameter/contrast = 1.0
+shader_parameter/spin_amount = 0.36
+shader_parameter/pixel_filter = 1600.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vmisn"]
+shader = ExtResource("3_7ukp5")
+shader_parameter/one_in_times = 5
+shader_parameter/scanline_opacity = 0.3
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_dqqm1")
+volume = 50
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_ufexp")
+autoplay = true
+mix_target = 1
+parameters/looping = true
+
+[node name="PaintRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_uhk7k")
+offset_right = 178.0
+offset_bottom = 242.0
+mouse_filter = 1
+
+[node name="CardLayer" type="Node2D" parent="."]
+position = Vector2(26, 34)
+
+[node name="CRTRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_vmisn")
+offset_right = 178.0
+offset_bottom = 242.0
+mouse_filter = 1
 
 [node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(5, 5)
+anchor_mode = 0
+zoom = Vector2(2, 2)

@@ -1,8 +1,57 @@
-[gd_scene load_steps=8 format=3 uid="uid://duwumr70tl072"]
+[gd_scene load_steps=13 format=3 uid="uid://duwumr70tl072"]
 
 [ext_resource type="Script" path="res://scenes/card.gd" id="1_ywvjg"]
 [ext_resource type="Texture2D" uid="uid://dm7o2a043m176" path="res://assets/sprites/backside.png" id="2_er5j7"]
 [ext_resource type="Texture2D" uid="uid://ckg4mp0nn3pjk" path="res://assets/sprites/front/air.png" id="2_jgoqv"]
+[ext_resource type="Script" path="res://scenes/select_component.gd" id="2_le202"]
+[ext_resource type="Texture2D" uid="uid://ce1mo2gsd3new" path="res://assets/sprites/check.png" id="5_ujjdi"]
+
+[sub_resource type="Animation" id="Animation_grlu6"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BackSide:scale:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("BackSide/FrontSide:z_index")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(-1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("SelectComponent/Check:scale:x")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("SelectComponent/Check:scale:y")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0.001, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
 
 [sub_resource type="Animation" id="Animation_7ygu6"]
 resource_name = "flip"
@@ -30,12 +79,44 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0.366667, 0.433333)
 }
 
-[sub_resource type="Animation" id="Animation_grlu6"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jibty"]
+_data = {
+"RESET": SubResource("Animation_grlu6"),
+"flip": SubResource("Animation_7ygu6")
+}
+
+[sub_resource type="Animation" id="Animation_sixgt"]
+resource_name = "check"
+length = 0.5
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Check:scale:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.5)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Check:scale:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0.001, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.5)
+}
+
+[sub_resource type="Animation" id="Animation_a7ucw"]
 length = 0.001
 tracks/0/type = "bezier"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("BackSide:scale:x")
+tracks/0/path = NodePath("Check:scale:x")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -46,25 +127,26 @@ tracks/0/keys = {
 tracks/1/type = "bezier"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("BackSide/FrontSide:z_index")
+tracks/1/path = NodePath("Check:scale:y")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(-1, -0.25, 0, 0.25, 0),
+"points": PackedFloat32Array(0.001, -0.25, 0, 0.25, 0),
 "times": PackedFloat32Array(0)
 }
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_jibty"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ncivs"]
 _data = {
-"RESET": SubResource("Animation_grlu6"),
-"flip": SubResource("Animation_7ygu6")
+"RESET": SubResource("Animation_a7ucw"),
+"check": SubResource("Animation_sixgt")
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6vnwi"]
-size = Vector2(32, 48)
+size = Vector2(36, 52)
 
 [node name="Card" type="Node2D"]
+position = Vector2(16, 24)
 script = ExtResource("1_ywvjg")
 
 [node name="BackSide" type="Sprite2D" parent="."]
@@ -78,10 +160,28 @@ texture = ExtResource("2_jgoqv")
 libraries = {
 "": SubResource("AnimationLibrary_jibty")
 }
+speed_scale = 2.0
+
+[node name="SelectComponent" type="Node2D" parent="."]
+script = ExtResource("2_le202")
+
+[node name="Check" type="Sprite2D" parent="SelectComponent"]
+position = Vector2(13, -22)
+scale = Vector2(1, 0.001)
+texture = ExtResource("5_ujjdi")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="SelectComponent"]
+libraries = {
+"": SubResource("AnimationLibrary_ncivs")
+}
 
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_6vnwi")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
 
 [connection signal="input_event" from="Area2D" to="." method="_on_area_2d_input_event"]
